@@ -1,0 +1,607 @@
+Code "LoadLevel"
+//
+	#include "BlackboardStatus" noemit
+	
+	#lib "GameMode"
+	#lib "Lua"
+//
+{	
+    // credit to Weezley for the original 'Fix Another Story Stages Sound' code
+    if (GameMode.GetName() == "GameModeBattleRush")
+	{
+		// fixes towers not appearing on pre-rhea save files
+		Lua.Call("SetObjStatus", "GiantTower", 0, 0);	
+		Lua.Call("SetObjStatus", "GiantTower", 1, 0);	
+		Lua.Call("SetObjStatus", "GiantTower", 2, 0);	
+		Lua.Call("SetObjStatus", "GiantTower", 3, 0);	
+		Lua.Call("SetObjStatus", "GiantTower", 4, 0);	
+		Lua.Call("SetObjStatus", "GiantTower", 5, 0);	
+	
+		// supported music customization options
+		Lua.Call("LoadLevel", "actionchain_sound");
+		Lua.Call("LoadLevel", "custom_sound");
+		Lua.Call("LoadLevel", "w6_sound");		
+		
+		// unsupported music customization options
+		Lua.Call("LoadLevel", "birthday_sound");
+		Lua.Call("LoadLevel", "dragon01_sound");
+		Lua.Call("LoadLevel", "extra_sound");
+		Lua.Call("LoadLevel", "giant01_sound");
+		Lua.Call("LoadLevel", "knight01_sound");
+		Lua.Call("LoadLevel", "kodama_update_sound");
+		Lua.Call("LoadLevel", "rifle01_sound");
+		Lua.Call("LoadLevel", "riflebeast_sound");
+		Lua.Call("LoadLevel", "the_end01_sound");
+		
+		// Another Story object SFX
+		Lua.Call("LoadLevel", "stage_islandobject_extra");
+	}
+}
+Code "Island Rush - Stage text"
+//
+    #lib "Converse"
+//
+{
+	Converse.Redirect("islandrush_ares_switch", "Activate the Switches");
+	Converse.Redirect("islandrush_ares_switch_body", "Find 3 Switches on the top of each obstacle course to reveal the goal at the central tower.");	
+	
+	Converse.Redirect("menu_title_choice_battlerush_stage1", "Kronos");
+	Converse.Redirect("menu_title_choice_battlerush_stage2", "Ares");
+	Converse.Redirect("menu_title_choice_battlerush_stage3", "Chaos");
+	Converse.Redirect("menu_title_choice_battlerush_stage4", "Ouranos");
+	
+	// 'result_itemname_battlerush_stageX' would've been here, but Converse doesn't work with those lines, so i replaced them the traditional way
+}
+
+Code "Island Rush - UI text"
+//
+    #lib "Converse"
+//
+{
+    Converse.Redirect("menu_cmn_sys1_continue4", "Continue Island Rush");
+    Converse.Redirect("menu_cmn_sys2_retry3_mtips2", "Restart Island Rush from the beginning");
+    Converse.Redirect("menu_cmn_sys3_giveup4", "Quit Island Rush");
+    Converse.Redirect("menu_cmn_sys3_giveup4_mtips", "Quit Island Rush and return to the previous menu");
+    Converse.Redirect("menu_title_choice_battlerush", "Island Rush");
+    Converse.Redirect("menu_title_choice_battlerush_stagetitle", "Island Rush");
+    Converse.Redirect("result_btnguide_next5", "End Island Rush");
+    Converse.Redirect("sy2000_401", "Restart Island Rush?");
+	
+    Converse.Redirect("tu1000dlc_045", "This update contains the following content:\n- Photo Mode\n- Juke Box\n- Cyber Space Challenge (unlocks after clearing the story)\n- Island Rush (unlocks after clearing the story)\n- Springtime Koco appearance");
+    Converse.Redirect("tu1000dlc_070", "Cyber Space Challenge and Island Rush");
+    Converse.Redirect("tu1000dlc_075", "Cyber Space Challenge and Island Rush have been added:\n- Cyber Space Challenge is a time attack mode in which a succession of Cyber Space Stages are played in a row.\n- Island Rush is a time attack mode featuring unique mixes of various Open Zone platforming.\nThese modes can be accessed from the Title Screen. Get an A rank to unlock the next Stage. Getting all S ranks will lead to something special.");
+    Converse.Redirect("tu1000dlc_115", "Sonic's stats in Island Rush will depend on which save data is loaded. Better stats can lead to better times.");
+    Converse.Redirect("tip_138", "Island Rush is a time attack mode featuring unique mixes of various Open Zone platforming. This mode can be accessed from the Title Screen.");
+    Converse.Redirect("tip_142", "In Cyber Space, Cyber Space Challenge, Island Rush, and Action Chain Challenge, press <image name=\"button_left_trigger_Wh\" />＋<image name=\"button_right_trigger_Wh\" />＋<image name=\"button_view_Wh\" /> to restart the Stage");
+    Converse.Redirect("tip_142_Steam", "In Cyber Space, Cyber Space Challenge, Island Rush, and Action Chain Challenge, press <image name=\"button_left_trigger_Wh\" />＋<image name=\"button_right_trigger_Wh\" />＋<image name=\"button_view_Wh\" /> to restart the Stage. If the key configuration has been changed, the command to restart the Stage will also change.");
+}
+
+Code "Island Rush - User modifiable parameters" by "ecksdii"
+//
+	#include "Reflection" noemit
+	
+	#import "Services"
+
+	#lib "GameMode"
+	#lib "HMM"
+	#lib "INI"
+	#lib "Lua"
+	#lib "Reflection"
+	
+	#lib "BattleRushParameter"
+	#lib "SoundCommonParameter"
+//
+{
+    static bool isConfigInit = false;
+	
+	int CurrentStage = 0;
+	int MaxSong = 0;
+	
+	string isCustomEnabled = string.Empty;
+	string IslandWeather = string.Empty;
+	string TimeOfDay = string.Empty;
+	
+	var name = GameMode.GetName();
+	
+	var BattleRushParameterInfo = Reflection.GetDataInfo<BattleRushParameter.Root>("battlerush");
+
+	if (BattleRushParameterInfo.pData == null)
+		return;
+	
+	var SoundCommonParameterInfo = Reflection.GetDataInfo<SoundCommonParameter.Root>("sound_common_param");
+
+	if (SoundCommonParameterInfo.pData == null)
+		return;
+
+	var mod = HMM.GetModByID("933C634F");
+	var modConfigIniPath = System.IO.Path.Combine(mod.Path, "config.ini");
+	var ini = INI.Read(modConfigIniPath);
+	
+	string[] musicArray = new string[3];		
+	
+	// while on the title screen and loading screen, reset config condition
+	if (name == "GameModeTitle" || name == "GameModeUnknown")
+    {
+		isConfigInit = false;
+	}
+	else if (name == "GameModeBattleRush")
+    {
+		if (!isConfigInit)
+		{
+			// reading ints or strings? no problem. reading bools? nahhhhh, i'm just not gonna read anything. why? just felt like it.
+			isCustomEnabled = INI.Parse<string>(ini["Music_Custom"]["isCustomEnabled"], isCustomEnabled);
+			
+			switch (LevelInfo.GetCurrentStageID())
+			{
+				case "w1b01":
+				{
+					if (isCustomEnabled == "Yes")
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["KronosKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["KronosTower1"], musicArray[1]);
+						musicArray[2] = INI.Parse<string>(ini["Music_Custom"]["KronosTower2"], musicArray[2]);	
+					}
+					else
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["KronosKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["KronosTower1"], musicArray[1]);
+						musicArray[2] = INI.Parse<string>(ini["Music_HMM"]["KronosTower2"], musicArray[2]);					
+					}
+					
+					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeKronos"], TimeOfDay);
+					
+					CurrentStage = 0;
+					MaxSong = 3;
+					Console.WriteLine("[STAGE] Loaded Kronos config.")
+					break;
+				}		
+				case "w2b01":
+				{
+					if (isCustomEnabled == "Yes")
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["AresKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["AresTower"], musicArray[1]);
+					}		
+					else
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["AresKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["AresTower"], musicArray[1]);
+					}
+					musicArray[2] = string.Empty;
+					
+					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeAres"], TimeOfDay);
+					
+					CurrentStage = 1;	
+					MaxSong = 2;					
+					Console.WriteLine("[STAGE] Loaded Ares config.")					
+					break;
+				}		
+				case "w3b01":
+				{
+					if (isCustomEnabled == "Yes")
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["ChaosKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["ChaosTower"], musicArray[1]);
+					}		
+					else
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["ChaosKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["ChaosTower"], musicArray[1]);
+					}
+					musicArray[2] = string.Empty;
+					
+					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeChaos"], TimeOfDay);
+					
+					CurrentStage = 2;
+					MaxSong = 2;
+					Console.WriteLine("[STAGE] Loaded Chaos config.")
+					break;
+				}		
+				case "w1b02":
+				{
+					if (isCustomEnabled == "Yes")
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["OuranosKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["OuranosTower1"], musicArray[1]);
+						musicArray[2] = INI.Parse<string>(ini["Music_Custom"]["OuranosTower2"], musicArray[2]);		
+					}
+					else
+					{
+						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["OuranosKoco"], musicArray[0]);
+						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["OuranosTower1"], musicArray[1]);
+						musicArray[2] = INI.Parse<string>(ini["Music_HMM"]["OuranosTower2"], musicArray[2]);					
+					}					
+					
+					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeOuranos"], TimeOfDay);
+					
+					CurrentStage = 3;
+					MaxSong = 3;
+					Console.WriteLine("[STAGE] Loaded Ouranos config.")
+					break;
+				}			
+			}
+			
+			switch(TimeOfDay)
+			{
+				case "Sunrise":
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 4);
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 30);
+					break;
+				}		
+				case "Day":
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 8);
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 00);
+					break;
+				}		
+				case "Sunset":
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 20);
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 15);
+					break;
+				}		
+				case "Night":
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 0);
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 00);
+					break;
+				}
+			}			
+			Console.WriteLine("[STAGE] Loaded Time of Day settings.")
+
+			for (int l = 1; l <= MaxSong; l++)
+			{
+				RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].fadeInTime, 0.0f);
+				RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].fadeOutTime, 2.5f);
+			}
+			Console.WriteLine("[MUSIC] Replaced music fade info.")	
+			
+			for (int k = 0; k < MaxSong; k++)	
+			{
+				RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[k+1].cueName, musicArray[k]);	
+			}			
+			Console.WriteLine("[MUSIC] Loaded new music cues.")	
+			
+			// to prevent the same song restarting between the two tower phases in kronos/ouranos
+			if (MaxSong == 3)
+			{
+				if (musicArray[2] == musicArray[1])
+				{
+					Console.WriteLine("[MUSIC] Tower1 and Tower2 music cues are the same, replacing the latter BgmType...")			
+					for (int i = 8; i < 11; i++)
+					{
+						RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_CHARGER_BATTLE);
+					}
+				}
+				else
+				{
+					Console.WriteLine("[MUSIC] Tower1 and Tower2 music cues are different, using the original BgmType setup...")
+					for (int i = 8; i < 11; i++)
+					{
+						RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_DARUMA_BATTLE);
+					}		
+				}
+			}
+			isConfigInit = true;
+		}	
+		else
+		{
+			// weather lua commands need to be processed after stage load, so because of that they run on every frame
+			switch (LevelInfo.GetCurrentStageID())
+			{
+				case "w1b01":
+				{
+					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherKronos"], IslandWeather);
+					break;
+				}		
+				case "w2b01":
+				{
+					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherAres"], IslandWeather);	
+					break;
+				}		
+				case "w3b01":
+				{
+					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherChaos"], IslandWeather);
+					break;
+				}		
+				case "w1b02":
+				{
+					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherOuranos"], IslandWeather);
+					break;
+				}			
+			}			
+			Lua.Call("ChangeWeather", 0, IslandWeather);
+		}
+    }
+	else
+	{
+		// restore original sound cues
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].cueName, "bgm_enemy");
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].cueName, "bgm_miniboss_charger");
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].cueName, "bgm_miniboss_daruma");
+		
+		// restore original FadeIn/Out times
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].fadeInTime, 2.0f);
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].fadeOutTime, 3.5f);		
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].fadeInTime, 2.0f);
+		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].fadeInTime, 0.0f);
+	}
+}
+
+Library "SoundCommonParameter"
+{
+    #load "System.Numerics.dll"
+
+    using System.Numerics;
+    using System.Runtime.InteropServices;
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x0C)]
+    public struct BGMVolumeChangeInfo
+    {
+        [FieldOffset(0x00)] public float value;
+        [FieldOffset(0x04)] public float delayTime;
+        [FieldOffset(0x08)] public float fadeTime;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x54)]
+    public struct BGMVolumeChangeInfoList
+    {
+        [FieldOffset(0x00)] public BGMVolumeChangeInfo playerStop;
+        [FieldOffset(0x0C)] public BGMVolumeChangeInfo playerWalk;
+        [FieldOffset(0x18)] public BGMVolumeChangeInfo playerRun;
+        [FieldOffset(0x24)] public BGMVolumeChangeInfo fishingHitIn;
+        [FieldOffset(0x30)] public BGMVolumeChangeInfo fishingHitOut;
+        [FieldOffset(0x3C)] public BGMVolumeChangeInfo musicBoxIn;
+        [FieldOffset(0x48)] public BGMVolumeChangeInfo musicBoxOut;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x08)]
+    public struct AisacChangeInfo
+    {
+        [FieldOffset(0x00)] public float value;
+        [FieldOffset(0x04)] public float fadeTime;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x28)]
+    public struct AisacChangeInfoList
+    {
+        [FieldOffset(0x00)] public AisacChangeInfo sunny;
+        [FieldOffset(0x08)] public AisacChangeInfo cloudy;
+        [FieldOffset(0x10)] public AisacChangeInfo rainy;
+        [FieldOffset(0x18)] public AisacChangeInfo beginUnderWater;
+        [FieldOffset(0x20)] public AisacChangeInfo finishUnderWater;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 8)]
+    public struct UnmanagedString
+    {
+        [FieldOffset(0)] public long pValue;
+
+        public string Value
+        {
+            get
+            {
+                if (pValue == 0)
+                    return string.Empty;
+
+                return Marshal.PtrToStringAnsi((nint)pValue);
+            }
+
+            set => pValue = (long)Marshal.StringToHGlobalAnsi(value);
+        }
+
+        public UnmanagedString(string in_value)
+        {
+            Value = in_value;
+        }
+
+        public static implicit operator UnmanagedString(string in_value)
+        {
+            return new UnmanagedString(in_value);
+        }
+
+        public static bool operator ==(UnmanagedString in_left, string in_right)
+        {
+            return in_left.Value == in_right;
+        }
+
+        public static bool operator !=(UnmanagedString in_left, string in_right)
+        {
+            return !(in_left == in_right);
+        }
+
+        public override bool Equals(object in_obj)
+        {
+            if (in_obj is string str)
+                return Value == str;
+
+            return base.Equals(in_obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Value;
+        }
+    }
+
+    public enum Priority : sbyte
+    {
+        PRIORITY_LOW = 0,
+        PRIORITY_DEFAULT = 1,
+        PRIORITY_HIGH = 2,
+        PRIORITY_SUPER_HIGH = 3,
+        NUM_PRIORITY = 4,
+        PRIORITY_INVALID = -1
+    }
+
+    public enum InterruptType : sbyte
+    {
+        INTERRUPT_TYPE_STOP = 0,
+        INTERRUPT_TYPE_PAUSE = 1,
+        INTERRUPT_TYPE_OVERLAP = 2,
+        NUM_INTERRUPT_TYPE = 3
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x40)]
+    public struct BGMInfo
+    {
+        [FieldOffset(0x00)] public UnmanagedString cueName;
+        [FieldOffset(0x10)] public int blockId;
+        [FieldOffset(0x14)] public float fadeInTime;
+        [FieldOffset(0x18)] public float fadeOutTime;
+        [FieldOffset(0x1C)] public float delayTime;
+        [FieldOffset(0x20)] public UnmanagedString aisacName;
+        [FieldOffset(0x30)] public float aisacValue;
+        [FieldOffset(0x34)] public float aisacFadeTime;
+        [FieldOffset(0x38)] public bool isVolumeControl;
+        [FieldOffset(0x39)] public bool isOverlapPlay;
+        [FieldOffset(0x3A)] public Priority priority;
+        [FieldOffset(0x3B)] public InterruptType interruptType;
+    }
+
+    public enum BGMTransitInfo_InterruptType : sbyte
+    {
+        BGMTransitInfo_InterruptType_INTERRUPT_TYPE_STOP = 0,
+        BGMTransitInfo_InterruptType_INTERRUPT_TYPE_PAUSE = 1,
+        BGMTransitInfo_InterruptType_INTERRUPT_TYPE_OVERLAP = 2,
+        BGMTransitInfo_InterruptType_NUM_INTERRUPT_TYPE = 3
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x30)]
+    public struct BGMTransitInfo
+    {
+        [FieldOffset(0x00)] public UnmanagedString tagName;
+        [FieldOffset(0x10)] public int beforeId;
+        [FieldOffset(0x14)] public int beforeIdMax;
+        [FieldOffset(0x18)] public int afterId;
+        [FieldOffset(0x1C)] public BGMTransitInfo_InterruptType type;
+        [FieldOffset(0x20)] public float fadeOutTime;
+        [FieldOffset(0x24)] public float fadeInTime;
+        [FieldOffset(0x28)] public float delayTime;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x3890)]
+    public struct Root
+    {
+        [FieldOffset(0x00)] public float pauseFadeOutTime;
+        [FieldOffset(0x04)] public float pauseFadeInTime;
+        [FieldOffset(0x08)] public float enterCyberFadeOutTime;
+        [FieldOffset(0x0C)] public float leaveCyberResultFadeOutTime;
+        [FieldOffset(0x10)] public BGMVolumeChangeInfoList bgmVolumeInfo;
+        [FieldOffset(0x64)] public AisacChangeInfoList aisacInfo;
+        [FieldOffset(0x90)] public unsafe fixed byte /* BGMInfo[128] */ _changeBgmInfo[8192];
+
+        public unsafe BGMInfo* changeBgmInfo
+        {
+            get
+            {
+                fixed (byte* p_changeBgmInfo = _changeBgmInfo)
+                    return (BGMInfo*)p_changeBgmInfo;
+            }
+        }
+
+        [FieldOffset(0x2090)] public unsafe fixed byte /* BGMTransitInfo[128] */ _transitBgmInfo[6144];
+
+        public unsafe BGMTransitInfo* transitBgmInfo
+        {
+            get
+            {
+                fixed (byte* p_transitBgmInfo = _transitBgmInfo)
+                    return (BGMTransitInfo*)p_transitBgmInfo;
+            }
+        }
+    }
+}
+
+Library "BattleRushParameter"
+{
+    #load "System.Numerics.dll"
+
+    using System.Numerics;
+    using System.Runtime.InteropServices;
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x20)]
+    public struct BattleRushPhaseRankParameter
+    {
+        [FieldOffset(0x00)] public unsafe fixed uint rankTime[4];
+        [FieldOffset(0x10)] public unsafe fixed uint rankTimeAll[4];
+    }
+
+    public enum BgmType : sbyte
+    {
+        INVALID = -1,
+        ENEMY_BATTLE = 0,
+        FORCE_BATTLE_FIELD = 1,
+        MINIBOSS_CHARGER_BATTLE = 2,
+        MINIBOSS_DARUMA_BATTLE = 3,
+        MINIBOSS_SPIDER_BATTLE = 4,
+        MINIBOSS_BLADE_BATTLE = 5,
+        MINIBOSS_FLYER_BATTLE = 6,
+        MINIBOSS_TRACKER_BATTLE = 7,
+        MINIBOSS_ASHURA_BATTLE = 8,
+        MINIBOSS_SKIER_BATTLE = 9,
+        MINIBOSS_SUMO_BATTLE = 10,
+        MINIBOSS_TYRANT_BATTLE = 11,
+        MINIBOSS_STRIDER_BATTLE = 12,
+        MINIBOSS_WARSHIP_BATTLE = 13,
+        ENEMY_AQUABALL = 14,
+        TUTORIAL_BLADE_BATTLE = 15
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x1FC)]
+    public struct BattleRushStageParameter
+    {
+        [FieldOffset(0x00)] public uint numPhases;
+        [FieldOffset(0x04)] public unsafe fixed float phaseLimitTime[11];
+        [FieldOffset(0x30)] public unsafe fixed float phaseClearedTime[11];
+        [FieldOffset(0x5C)] public unsafe fixed float phaseResultTime[11];
+        [FieldOffset(0x88)] public unsafe fixed byte /* BattleRushPhaseRankParameter[11] */ _phaseRank[352];
+
+        public unsafe BattleRushPhaseRankParameter* phaseRank
+        {
+            get
+            {
+                fixed (byte* p_phaseRank = _phaseRank)
+                    return (BattleRushPhaseRankParameter*)p_phaseRank;
+            }
+        }
+
+        [FieldOffset(0x1E8)] public unsafe fixed byte /* BgmType[11] */ _phaseBgmType[11];
+
+        public unsafe BgmType* phaseBgmType
+        {
+            get
+            {
+                fixed (byte* p_phaseBgmType = _phaseBgmType)
+                    return (BgmType*)p_phaseBgmType;
+            }
+        }
+
+        [FieldOffset(0x1F4)] public uint hour;
+        [FieldOffset(0x1F8)] public uint minute;
+    }
+
+    [StructLayout(LayoutKind.Explicit, Size = 0x7F4)]
+    public struct Root
+    {
+        [FieldOffset(0x00)] public unsafe fixed byte /* BattleRushStageParameter[4] */ _stages[2032];
+
+        public unsafe BattleRushStageParameter* stages
+        {
+            get
+            {
+                fixed (byte* p_stages = _stages)
+                    return (BattleRushStageParameter*)p_stages;
+            }
+        }
+
+        [FieldOffset(0x7F0)] public float viewPaseResultTime;
+    }
+
+}

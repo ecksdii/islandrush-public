@@ -1,1 +1,2 @@
+add IslandRush.hmm
 add mod.ini
