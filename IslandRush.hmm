@@ -8,15 +8,7 @@ Code "LoadLevel"
 {	
     // credit to Weezley for the original 'Fix Another Story Stages Sound' code
     if (GameMode.GetName() == "GameModeBattleRush")
-	{
-		// fixes towers not appearing on pre-rhea save files
-		Lua.Call("SetObjStatus", "GiantTower", 0, 0);	
-		Lua.Call("SetObjStatus", "GiantTower", 1, 0);	
-		Lua.Call("SetObjStatus", "GiantTower", 2, 0);	
-		Lua.Call("SetObjStatus", "GiantTower", 3, 0);	
-		Lua.Call("SetObjStatus", "GiantTower", 4, 0);	
-		Lua.Call("SetObjStatus", "GiantTower", 5, 0);	
-	
+	{	
 		// supported music customization options
 		Lua.Call("LoadLevel", "actionchain_sound");
 		Lua.Call("LoadLevel", "custom_sound");
@@ -44,6 +36,7 @@ Code "Island Rush - Stage text"
 {
 	Converse.Redirect("islandrush_ares_switch", "Activate the Switches");
 	Converse.Redirect("islandrush_ares_switch_body", "Find 3 Switches on the top of each obstacle course to reveal the goal at the central tower.");	
+	Converse.Redirect("islandrush_ares_switch_top_body", "Find the rest of the Switches on the top of each obstacle course to reveal the goal at the central tower.");	
 	
 	Converse.Redirect("menu_title_choice_battlerush_stage1", "Kronos");
 	Converse.Redirect("menu_title_choice_battlerush_stage2", "Ares");
@@ -327,6 +320,20 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].fadeInTime, 2.0f);
 		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].fadeInTime, 0.0f);
 	}
+}
+
+Patch "HMM Code Check (modified)" by "ZEROES_07"
+//
+    #lib "HMM"
+    using System.Windows.Forms;
+    #load "System.Windows.Forms.dll"
+//
+{
+    if (HMM.GetCodes().Contains("Gameplay/Open Zone/Objects/Disable Traversal Objects in Chests")) 
+	{
+        MessageBox.Show("Disable the code \"Gameplay/Open Zone/Objects/Disable Traversal Objects in Chests\" in order to play 'Island Rush'.", "Code Conflict", MessageBoxButtons.OK);
+        System.Environment.Exit(0);
+    }
 }
 
 Library "SoundCommonParameter"
