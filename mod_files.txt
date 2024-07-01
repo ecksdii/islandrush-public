@@ -1,3 +1,4 @@
+add raw/enemy/beetonI.pac
 add raw/gedit/w1b01_gedit.pac
 add raw/gedit/w1b02_gedit.pac
 add raw/gedit/w2b01_gedit.pac

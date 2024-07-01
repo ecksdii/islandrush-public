@@ -51,6 +51,9 @@ Code "Island Rush - UI text"
     #lib "Converse"
 //
 {
+    Converse.Redirect("mega_intro", "Only Up!");
+    Converse.Redirect("mega_intro_body", "Climb up the Mega-Tower to reach the goal!\n\nTip: Press <image name=\"button_left_shoulder_Wh\" /> or <image name=\"button_right_shoulder_Wh\" /> to Dodge.\nDodging in mid-air is extremely useful if you accidentally fall, so keep that in mind!");	
+
     Converse.Redirect("menu_cmn_sys1_continue4", "Continue Island Rush");
     Converse.Redirect("menu_cmn_sys2_retry3_mtips2", "Restart Island Rush from the beginning");
     Converse.Redirect("menu_cmn_sys3_giveup4", "Quit Island Rush");
@@ -320,6 +323,16 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].fadeInTime, 2.0f);
 		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].fadeInTime, 0.0f);
 	}
+}
+
+Patch "Always enable JumpSelector UI" by "angryzor"
+{
+	WriteNop(0x140A341A2, 10);
+}
+
+Patch "Use global time for all respawns" by "angryzor"
+{
+	WriteProtected<uint>(0x1402173D5, 1);
 }
 
 Patch "HMM Code Check (modified)" by "ZEROES_07"
