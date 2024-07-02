@@ -1,3 +1,6 @@
+## Island Rush 1.2.2
+- Actually fixed oversight with enemy despawns in Kronos' Phase 9 for real
+
 ## Island Rush 1.2.1
 - Fixed oversight with enemy despawns in Kronos' Phase 9
 
