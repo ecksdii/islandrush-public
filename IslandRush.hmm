@@ -33,11 +33,7 @@ Code "Island Rush - Stage text"
 //
     #lib "Converse"
 //
-{
-	Converse.Redirect("islandrush_ares_switch", "Activate the Switches");
-	Converse.Redirect("islandrush_ares_switch_body", "Find 3 Switches on the top of each obstacle course to reveal the goal at the central tower.");	
-	Converse.Redirect("islandrush_ares_switch_top_body", "Find the rest of the Switches on the top of each obstacle course to reveal the goal at the central tower.");	
-	
+{	
 	Converse.Redirect("menu_title_choice_battlerush_stage1", "Kronos");
 	Converse.Redirect("menu_title_choice_battlerush_stage2", "Ares");
 	Converse.Redirect("menu_title_choice_battlerush_stage3", "Chaos");
@@ -51,9 +47,6 @@ Code "Island Rush - UI text"
     #lib "Converse"
 //
 {
-    Converse.Redirect("mega_intro", "Only Up!");
-    Converse.Redirect("mega_intro_body", "Climb up the Mega-Tower to reach the goal!\n\nTip: Press <image name=\"button_left_shoulder_Wh\" /> or <image name=\"button_right_shoulder_Wh\" /> to Dodge.\nDodging in mid-air is extremely useful if you accidentally fall, so keep that in mind!");	
-
     Converse.Redirect("menu_cmn_sys1_continue4", "Continue Island Rush");
     Converse.Redirect("menu_cmn_sys2_retry3_mtips2", "Restart Island Rush from the beginning");
     Converse.Redirect("menu_cmn_sys3_giveup4", "Quit Island Rush");

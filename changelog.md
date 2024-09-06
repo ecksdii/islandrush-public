@@ -1,3 +1,7 @@
+## Island Rush 1.2.3
+- Fixed potential game crash when interacting with Hint Rings
+- Hint Rings located on top of obstacle courses now disappear when the goal is revealed in Ares' Phase 11
+
 ## Island Rush 1.2.2
 - Actually fixed oversight with enemy despawns in Kronos' Phase 9 for real
 

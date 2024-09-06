@@ -4,5 +4,6 @@ add raw/gedit/w1b02_gedit.pac
 add raw/gedit/w2b01_gedit.pac
 add raw/stage/w1r03/w1r03_obj.pac
 add raw/stage/w1r04/w1r04_obj.pac
+add raw/text/text_RichPresence_en.pac
 add IslandRush.hmm
 add mod.ini
