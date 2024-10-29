@@ -88,6 +88,7 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	
 	string isCustomEnabled = string.Empty;
 	string IslandWeather = string.Empty;
+	string LowerPhaseClear = string.Empty;
 	string TimeOfDay = string.Empty;
 	
 	var name = GameMode.GetName();
@@ -118,7 +119,8 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 		if (!isConfigInit)
 		{
 			// reading ints or strings? no problem. reading bools? nahhhhh, i'm just not gonna read anything. why? just felt like it.
-			isCustomEnabled = INI.Parse<string>(ini["Music_Custom"]["isCustomEnabled"], isCustomEnabled);
+			LowerPhaseClear = INI.Parse<string>(ini["Config"]["LowerPhaseClear"], LowerPhaseClear);
+			isCustomEnabled = INI.Parse<string>(ini["Config"]["isCustomEnabled"], isCustomEnabled);
 			
 			switch (LevelInfo.GetCurrentStageID())
 			{
@@ -271,6 +273,23 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 						RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_DARUMA_BATTLE);
 					}		
 				}
+			}
+			
+			if (LowerPhaseClear == "Yes")
+			{
+				Console.WriteLine("[OTHER] Using lower phase transition time.")
+				for (int i = 0; i < 11; i++)
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseClearedTime[i], 1.5f);
+				}
+			}
+			else
+			{
+				Console.WriteLine("[OTHER] Using default phase transition time.")
+				for (int i = 0; i < 11; i++)
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseClearedTime[i], 3.0f);	
+				}								
 			}
 			isConfigInit = true;
 		}	

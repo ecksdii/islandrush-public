@@ -1,0 +1,556 @@
+{
+    "Groups":
+	[
+	    {
+			"Name": "Config",
+			"DisplayName": "Config",
+			"Elements":
+			[
+				{
+					"Name": "LowerPhaseClear",
+					"DisplayName": "Decrease results transition time",
+					"Type": "CustomNum",
+					"DefaultValue": "No",
+					"Description": [ "This option lowers the delay between finishing one Phase and moving to the next by half (from 3s to 1.5s).\n\nUseful for speedrunning, but not recommended for casual and first time playthroughs.\n\nIf you're not sure, set this to 'No'." ]
+				},
+				{
+					"Name": "isCustomEnabled",
+					"DisplayName": "Use custom music cues?",
+					"Type": "CustomNum",
+					"DefaultValue": "No",
+					"Description": [ "(ADVANCED USERS ONLY)\n\nIf enabled, this will make the mod ignore the Music settings below, and instead lets the user input music cues manually into 'config.ini' (reads 'Music_Custom' instead of 'Music_HMM').\n\nOnly enable this when using 'Jukebox' mods, or if you know what you're doing.\n\nIf you're not sure, set this to 'No' and use the Music options below." ]
+				}
+			]
+        },    
+		{
+			"Name": "Music_HMM",
+			"DisplayName": "Music",
+			"Elements":
+			[
+				{
+					"Name": "KronosKoco",
+					"DisplayName": "Kronos Island - Phase 1",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Kronos - 6th Mvt",
+					"Description": [ "The music cue that plays during the 'Kronos Island' Koco challenges.\n\nDefault song: \n'Island: Kronos - 6th Mvt'" ]
+				},				
+				{
+					"Name": "KronosTower1",
+					"DisplayName": "Kronos Island - Phase 2",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Rhea",
+					"Description": [ "The music cue that plays during the first 3 'Kronos Island' towers.\n\nDefault song: \n'Island: Rhea'" ]
+				},						
+				{
+					"Name": "KronosTower2",
+					"DisplayName": "Kronos Island - Phase 3",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Rhea",
+					"Description": [ "The music cue that plays during the last 3 'Kronos Island' towers.\n\nDefault song: \n'Island: Rhea'" ]
+				},				
+				{
+					"Name": "AresKoco",
+					"DisplayName": "Ares Island - Phase 1",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Ares - 6th Mvt",
+					"Description": [ "The music cue that plays during the 'Ares Island' Koco challenges.\n\nDefault song: \n'Island: Ares - 6th Mvt'" ]
+				},				
+				{
+					"Name": "AresTower",
+					"DisplayName": "Ares Island - Phase 2",
+					"Type": "BgmNum",
+					"DefaultValue": "Quest: The Best Defense",
+					"Description": [ "The music cue that plays during the last few 'Ares Island' challenges.\n\nDefault song: \n'Quest: The Best Defense'" ]
+				},				
+				{
+					"Name": "ChaosKoco",
+					"DisplayName": "Chaos Island - Phase 1",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Chaos - 6th Mvt",
+					"Description": [ "The music cue that plays during the 'Chaos Island' Koco challenges.\n\nDefault song: \n'Island: Chaos - 6th Mvt'" ]
+				},				
+				{
+					"Name": "ChaosTower",
+					"DisplayName": "Chaos Island - Phase 2",
+					"Type": "BgmNum",
+					"DefaultValue": "Quest: Bridge the Gap",
+					"Description": [ "The music cue that plays during the last few 'Chaos Island' challenges.\n\nDefault song: \n'Quest: Bridge the Gap'" ]
+				},				
+				{
+					"Name": "OuranosKoco",
+					"DisplayName": "Ouranos Island - Phase 1",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Ouranos",
+					"Description": [ "The music cue that plays during the 'Ouranos Island' Koco challenges.\n\nDefault song: \n'Island: Ouranos'" ]
+				},				
+				{
+					"Name": "OuranosTower1",
+					"DisplayName": "Ouranos Island - Phase 2",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Another Story - Second Wind",
+					"Description": [ "The music cue that plays during the first 2 'Ouranos Island' towers.\n\nDefault song: \n'Island: Another Story - Second Wind'" ]
+				},				
+				{
+					"Name": "OuranosTower2",
+					"DisplayName": "Ouranos Island - Phase 3",
+					"Type": "BgmNum",
+					"DefaultValue": "Island: Another Story - Second Wind",
+					"Description": [ "The music cue that plays during the last 3 'Ouranos Island' towers.\n\nDefault song: \n'Island: Another Story - Second Wind'" ]
+				}
+			]
+        },
+		{
+			"Name": "Time",
+			"DisplayName": "Time of Day",
+			"Elements":
+			[
+				{
+				   "Name": "TimeKronos",
+				   "DisplayName": "Kronos Island",
+				   "Description": [
+					  "Change the time of day during the 'Kronos' Island Rush.\n\nDefault value: \n'Sunrise'",
+				   ],
+				   "Type": "TimeNum",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunrise"
+				},								
+				{
+				   "Name": "TimeAres",
+				   "DisplayName": "Ares Island",
+				   "Description": [
+					  "Change the time of day during the 'Ares' Island Rush.\n\nDefault value: \n'Sunset'",
+				   ],
+				   "Type": "TimeNum",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunset"
+				},								
+				{
+				   "Name": "TimeChaos",
+				   "DisplayName": "Chaos Island",
+				   "Description": [
+					  "Change the time of day during the 'Chaos' Island Rush.\n\nDefault value: \n'Night'",
+				   ],
+				   "Type": "TimeNum",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Night"
+				},						
+				{
+				   "Name": "TimeOuranos",
+				   "DisplayName": "Ouranos Island",
+				   "Description": [
+					  "Change the time of day during the 'Ouranos' Island Rush.\n\nDefault value: \n'Sunset'",
+				   ],
+				   "Type": "TimeNum",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunset"
+				}
+			]
+        },		
+		{
+			"Name": "Weather",
+			"DisplayName": "Weather",
+			"Elements":
+			[
+				{
+				   "Name": "WeatherKronos",
+				   "DisplayName": "Kronos Island",
+				   "Description": [
+					  "Change the weather during the 'Kronos' Island Rush.\n\nDefault value: \n'Sunny'",
+				   ],
+				   "Type": "WeatherW1Num",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunny"
+				},								
+				{
+				   "Name": "WeatherAres",
+				   "DisplayName": "Ares Island",
+				   "Description": [
+					  "Change the weather during the 'Ares' Island Rush.\n\nDefault value: \n'Sunny'",
+				   ],
+				   "Type": "WeatherW3Num",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunny"
+				},								
+				{
+				   "Name": "WeatherChaos",
+				   "DisplayName": "Chaos Island",
+				   "Description": [
+					  "Change the weather during the 'Chaos' Island Rush.\n\nDefault value: \n'Sunny'",
+				   ],
+				   "Type": "WeatherW3Num",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunny"
+				},						
+				{
+				   "Name": "WeatherOuranos",
+				   "DisplayName": "Ouranos Island",
+				   "Description": [
+					  "Change the weather during the 'Ouranos' Island Rush.\n\nDefault value: \n'Sunny'",
+				   ],
+				   "Type": "WeatherW1Num",
+				   "MinValue": null,
+				   "MaxValue": null,
+				   "DefaultValue": "Sunny"
+				}
+			]
+        }
+    ],	
+   "Enums": {
+
+      "BgmNum": 
+	  [
+
+         {
+            "DisplayName": "Action Chain Challenge",
+            "Value": "bgm_actionchain_s",
+         },          	 
+		 {
+            "DisplayName": "Cyber Space: 1-1 - Database",
+            "Value": "bgm_w6d01",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 1-2 - Flowing",
+            "Value": "bgm_w8d01",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 1-3 - Digital Cave",
+            "Value": "bgm_w9d04",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 1-4 - Genshi",
+            "Value": "bgm_w6d02",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 1-5 - Dropaholic",
+            "Value": "bgm_w7d04",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 1-6 - Go Back 2 Your Roots",
+            "Value": "bgm_w6d06",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 1-7 - Time Flyer",
+            "Value": "bgm_w9d06",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 2-1 - Slice & Sway",
+            "Value": "bgm_w6d05",
+         },		 
+		 {
+            "DisplayName": "Cyber Space: 2-2 - Heavenly Sky",
+            "Value": "bgm_w8d03",
+         },		 
+{
+            "DisplayName": "Cyber Space: 2-3 - Nostalgic Sweep",
+            "Value": "bgm_w7d02",
+         },
+		 {
+            "DisplayName": "Cyber Space: 2-4 - Hype Street",
+            "Value": "bgm_w7d06",
+         },
+		 {
+            "DisplayName": "Cyber Space: 2-5 - Déjà vu",
+            "Value": "bgm_w8d04",
+         },
+		 {
+            "DisplayName": "Cyber Space: 2-6 - Transparent Highway",
+            "Value": "bgm_w6d03",
+         },
+		 {
+            "DisplayName": "Cyber Space: 2-7 - Floating in the Blue",
+            "Value": "bgm_w8d05",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-1 - Escape the Loop",
+            "Value": "bgm_w6d04",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-2 - Go Slap",
+            "Value": "bgm_w6d08",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-3 - Memory Will Tell",
+            "Value": "bgm_w8d02",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-4 - Constructure",
+            "Value": "bgm_w6d09",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-5 - BMB",
+            "Value": "bgm_w6d07",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-6 - Enjoy This World",
+            "Value": "bgm_w8d06",
+         },
+		 {
+            "DisplayName": "Cyber Space: 3-7 - All Reality",
+            "Value": "bgm_w7d03",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-1 - Exceed Mach",
+            "Value": "bgm_w7d08",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-2 - Ephemeral",
+            "Value": "bgm_w9d02",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-3 - Rumble Rave",
+            "Value": "bgm_w7d01",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-4 - Wishes in the Wind",
+            "Value": "bgm_w9d03",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-5 - Arrow of Time",
+            "Value": "bgm_w6d10",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-6 - Fog Funk",
+            "Value": "bgm_w7d07",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-7 - Rewind to Go Ahead",
+            "Value": "bgm_w9d05",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-8 - No Pain, No Gain",
+            "Value": "bgm_w7d05",
+         },
+		 {
+            "DisplayName": "Cyber Space: 4-9 - Signs",
+            "Value": "bgm_w9d07",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-A - Genshi Remix",
+            "Value": "bgm_w6d21",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-B - Escape the Loop Remix",
+            "Value": "bgm_w6d22",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-C - Arrow of Time Remix",
+            "Value": "bgm_w6d23",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-D - Rumble Rave Remix",
+            "Value": "bgm_w7d21",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-E - Dropaholic Remix",
+            "Value": "bgm_w7d22",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-F - Hype Street Remix",
+            "Value": "bgm_w7d23",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-G - Ephemeral Remix",
+            "Value": "bgm_w9d21",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-H - Wishes in the Wind Remix",
+            "Value": "bgm_w9d22",
+         },			 
+		 {
+            "DisplayName": "Cyber Space: 4-I - Time Flyer Remix",
+            "Value": "bgm_w9d23",
+         },		 
+		 {
+            "DisplayName": "Fishing Vibes",
+            "Value": "bgm_fishing",
+         },		 
+		 {
+            "DisplayName": "Island Mystery: Hacking Mission",
+            "Value": "bgm_hacking",
+         },		 
+		 {
+            "DisplayName": "Island Mystery: Pinball",
+            "Value": "bgm_pinball",
+         }, 		 
+		 {
+            "DisplayName": "Island: Kronos - 1st Mvt",
+            "Value": "bgm_w1r02_1",
+         },           
+		 {
+            "DisplayName": "Island: Kronos - 2nd Mvt",
+            "Value": "bgm_w1r02_2",
+         },           
+		 {
+            "DisplayName": "Island: Kronos - 3rd Mvt",
+            "Value": "bgm_w1r02_3",
+         },           
+		 {
+            "DisplayName": "Island: Kronos - 4th Mvt",
+            "Value": "bgm_w1r02_4",
+         },           
+		 {
+            "DisplayName": "Island: Kronos - 5th Mvt",
+            "Value": "bgm_w1r02_5",
+         },           
+		 {
+            "DisplayName": "Island: Kronos - 6th Mvt",
+            "Value": "bgm_w1r02_6",
+         },           
+		 {
+            "DisplayName": "Island: Kronos - 7th Mvt",
+            "Value": "bgm_w1r02_7",
+         },  
+         {
+            "DisplayName": "Island: Ares - 1st Mvt",
+            "Value": "bgm_w2r01_1",
+         },           
+		 {
+            "DisplayName": "Island: Ares - 2nd Mvt",
+            "Value": "bgm_w2r01_2",
+         },           
+		 {
+            "DisplayName": "Island: Ares - 3rd Mvt",
+            "Value": "bgm_w2r01_3",
+         },           
+		 {
+            "DisplayName": "Island: Ares - 4th Mvt",
+            "Value": "bgm_w2r01_4",
+         },           
+		 {
+            "DisplayName": "Island: Ares - 5th Mvt",
+            "Value": "bgm_w2r01_5",
+         },           
+		 {
+            "DisplayName": "Island: Ares - 6th Mvt",
+            "Value": "bgm_w2r01_6",
+         },           
+		 {
+            "DisplayName": "Island: Ares - 7th Mvt",
+            "Value": "bgm_w2r01_7",
+         }, 
+         {
+            "DisplayName": "Island: Chaos - 1st Mvt",
+            "Value": "bgm_w3r01_1",
+         },           
+		 {
+            "DisplayName": "Island: Chaos - 2nd Mvt",
+            "Value": "bgm_w3r01_2",
+         },           
+		 {
+            "DisplayName": "Island: Chaos - 3rd Mvt",
+            "Value": "bgm_w3r01_3",
+         },           
+		 {
+            "DisplayName": "Island: Chaos - 4th Mvt",
+            "Value": "bgm_w3r01_4",
+         },           
+		 {
+            "DisplayName": "Island: Chaos - 5th Mvt",
+            "Value": "bgm_w3r01_5",
+         },           
+		 {
+            "DisplayName": "Island: Chaos - 6th Mvt",
+            "Value": "bgm_w3r01_6",
+         },           
+		 {
+            "DisplayName": "Island: Chaos - 7th Mvt",
+            "Value": "bgm_w3r01_7",
+         }, 		 
+		 {
+            "DisplayName": "Island: Rhea",
+            "Value": "bgm_w1r05",
+         }, 		 
+		 {
+            "DisplayName": "Island: Ouranos",
+            "Value": "bgm_w1r04_1",
+         },	
+		 {
+            "DisplayName": "Island: Theme of Starfall Islands",
+            "Value": "bgm_w1r04_4",
+         },		 
+		 {
+            "DisplayName": "Island: Another Story - Second Wind",
+            "Value": "bgm_maintheme",
+         }, 		 
+		 {
+            "DisplayName": "Quest: SOS Backup",
+            "Value": "bgm_quest_01",
+         },		 
+		 {
+            "DisplayName": "Quest: The Best Defense",
+            "Value": "bgm_quest_02",
+         }, 		 
+		 {
+            "DisplayName": "Quest: Bridge the Gap",
+            "Value": "bgm_quest_05",
+         },			 
+      ],     
+	  "CustomNum": 
+	  [          
+		 {
+            "DisplayName": "Yes",
+            "Value": "Yes",
+         },           
+		 {
+            "DisplayName": "No",
+            "Value": "No",
+         },      
+      ],	 
+	  "TimeNum": 
+	  [
+
+         {
+            "DisplayName": "Sunrise",
+            "Value": "Sunrise",
+         },           
+		 {
+            "DisplayName": "Day",
+            "Value": "Day",
+         },           
+		 {
+            "DisplayName": "Sunset",
+            "Value": "Sunset",
+         },           
+		 {
+            "DisplayName": "Night",
+            "Value": "Night",
+         },      
+      ],	  	           
+	  "WeatherW1Num": 
+	  [
+
+         {
+            "DisplayName": "Cloudy",
+            "Value": "Cloudy",
+         },           
+		 {
+            "DisplayName": "Rainy",
+            "Value": "Rainy",
+         },           
+		 {
+            "DisplayName": "Sunny",
+            "Value": "Sunny",
+         },            
+      ],	  	       		  	      	
+	  "WeatherW3Num": 
+	  [
+
+         {
+            "DisplayName": "Cloudy",
+            "Value": "Cloudy",
+         },                    
+		 {
+            "DisplayName": "Sunny",
+            "Value": "Sunny",
+         },            
+      ],	  	      
+	},  	
+    "IniFile": "config.ini"
+}
