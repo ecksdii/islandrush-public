@@ -339,12 +339,12 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 
 Patch "Always enable JumpSelector UI" by "angryzor"
 {
-	WriteNop(0x140A341A2, 10);
+    WriteNop(ScanSignature("\x80\x7D\xB9\x00\x0F\x85\xBB\x00\x00\x00", "xxxxxxxxxx"), 10);
 }
 
 Patch "Use global time for all respawns" by "angryzor"
 {
-	WriteProtected<uint>(0x1402173D5, 1);
+    WriteProtected<uint>(ScanSignature("\xC7\x44\x24\x28\x00\x00\x00\x00\x0F\x28\xD6", "xxxxxxxxxxx") + 4, 1);
 }
 
 Patch "HMM Code Check (modified)" by "ZEROES_07"

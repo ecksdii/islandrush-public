@@ -1,3 +1,6 @@
+## Island Rush 1.3.1
+- Added support for Sonic Frontiers v1.42
+
 ## Island Rush 1.3
 - Added a Hint Ring to the start of Kronos' Phase 4 to explain how the Ring Tower works
 - Added camera adjustments to Chaos' Phase 5 and 9
