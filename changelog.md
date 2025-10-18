@@ -1,3 +1,15 @@
+## Island Rush 1.4
+- Added helper objects to more confusing parts of certain Phases
+- Added config option to enable/disable Power Boost (was previously always disabled)
+- Adjustments to Kronos' Phases 2 and 4 to make them easier to complete on low Speed levels
+- Cyloop and Quick Cyloop are now unlocked by default when playing Island Rush
+- Fixed camera errors in Chaos' Phase 4
+- Miscellaneous tweaks to all 4 Islands
+- Re-added birthday balloons to the Kronos portion of the first Island
+- Small code improvements
+
+##### This update will overwrite your current config due to certain changes in the code file causing older configs to crash the game. If you've customized the mod's settings, it's recommended to backup your previous config before downloading this update.
+
 ## Island Rush 1.3.1
 - Added support for Sonic Frontiers v1.42
 

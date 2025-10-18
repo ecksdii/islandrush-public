@@ -8,25 +8,9 @@ Code "LoadLevel"
 {	
     // credit to Weezley for the original 'Fix Another Story Stages Sound' code
     if (GameMode.GetName() == "GameModeBattleRush")
-	{	
-		// supported music customization options
-		Lua.Call("LoadLevel", "actionchain_sound");
-		Lua.Call("LoadLevel", "custom_sound");
-		Lua.Call("LoadLevel", "w6_sound");		
-		
-		// unsupported music customization options
-		Lua.Call("LoadLevel", "birthday_sound");
-		Lua.Call("LoadLevel", "dragon01_sound");
-		Lua.Call("LoadLevel", "extra_sound");
-		Lua.Call("LoadLevel", "giant01_sound");
-		Lua.Call("LoadLevel", "knight01_sound");
-		Lua.Call("LoadLevel", "kodama_update_sound");
-		Lua.Call("LoadLevel", "rifle01_sound");
-		Lua.Call("LoadLevel", "riflebeast_sound");
-		Lua.Call("LoadLevel", "the_end01_sound");
-		
+	{
 		// Another Story object SFX
-		Lua.Call("LoadLevel", "stage_islandobject_extra");
+		Lua.Call("LoadLevel", "extra_sound");
 	}
 }
 Code "Island Rush - Stage text"
@@ -86,6 +70,7 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	int CurrentStage = 0;
 	int MaxSong = 0;
 	
+	string CueSelectMode = string.Empty;	
 	string isCustomEnabled = string.Empty;
 	string IslandWeather = string.Empty;
 	string LowerPhaseClear = string.Empty;
@@ -122,22 +107,23 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 			LowerPhaseClear = INI.Parse<string>(ini["Config"]["LowerPhaseClear"], LowerPhaseClear);
 			isCustomEnabled = INI.Parse<string>(ini["Config"]["isCustomEnabled"], isCustomEnabled);
 			
+			if (isCustomEnabled == "Yes")
+			{
+				CueSelectMode = "Music_Custom";
+			}
+			else
+			{
+				CueSelectMode = "Music_HMM";
+			}		
+			Console.WriteLine("[STAGE] Using music cue select mode: " + CueSelectMode);
+			
 			switch (LevelInfo.GetCurrentStageID())
 			{
 				case "w1b01":
 				{
-					if (isCustomEnabled == "Yes")
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["KronosKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["KronosTower1"], musicArray[1]);
-						musicArray[2] = INI.Parse<string>(ini["Music_Custom"]["KronosTower2"], musicArray[2]);	
-					}
-					else
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["KronosKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["KronosTower1"], musicArray[1]);
-						musicArray[2] = INI.Parse<string>(ini["Music_HMM"]["KronosTower2"], musicArray[2]);					
-					}
+					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["KronosKoco"], musicArray[0]);
+					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["KronosTower1"], musicArray[1]);
+					musicArray[2] = INI.Parse<string>(ini[CueSelectMode]["KronosTower2"], musicArray[2]);
 					
 					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeKronos"], TimeOfDay);
 					
@@ -148,16 +134,8 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 				}		
 				case "w2b01":
 				{
-					if (isCustomEnabled == "Yes")
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["AresKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["AresTower"], musicArray[1]);
-					}		
-					else
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["AresKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["AresTower"], musicArray[1]);
-					}
+					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["AresKoco"], musicArray[0]);
+					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["AresTower"], musicArray[1]);
 					musicArray[2] = string.Empty;
 					
 					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeAres"], TimeOfDay);
@@ -169,16 +147,8 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 				}		
 				case "w3b01":
 				{
-					if (isCustomEnabled == "Yes")
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["ChaosKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["ChaosTower"], musicArray[1]);
-					}		
-					else
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["ChaosKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["ChaosTower"], musicArray[1]);
-					}
+					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["ChaosKoco"], musicArray[0]);
+					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["ChaosTower"], musicArray[1]);
 					musicArray[2] = string.Empty;
 					
 					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeChaos"], TimeOfDay);
@@ -190,18 +160,9 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 				}		
 				case "w1b02":
 				{
-					if (isCustomEnabled == "Yes")
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_Custom"]["OuranosKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_Custom"]["OuranosTower1"], musicArray[1]);
-						musicArray[2] = INI.Parse<string>(ini["Music_Custom"]["OuranosTower2"], musicArray[2]);		
-					}
-					else
-					{
-						musicArray[0] = INI.Parse<string>(ini["Music_HMM"]["OuranosKoco"], musicArray[0]);
-						musicArray[1] = INI.Parse<string>(ini["Music_HMM"]["OuranosTower1"], musicArray[1]);
-						musicArray[2] = INI.Parse<string>(ini["Music_HMM"]["OuranosTower2"], musicArray[2]);					
-					}					
+					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["OuranosKoco"], musicArray[0]);
+					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["OuranosTower1"], musicArray[1]);
+					musicArray[2] = INI.Parse<string>(ini[CueSelectMode]["OuranosTower2"], musicArray[2]);
 					
 					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeOuranos"], TimeOfDay);
 					
@@ -337,6 +298,40 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	}
 }
 
+Patch "Island Rush - Extra modifiable parameters" by "ecksdii"
+//
+	#lib "HMM"
+	#lib "INI"
+//
+{	
+	var mod = HMM.GetModByID("933C634F");
+	var modConfigIniPath = System.IO.Path.Combine(mod.Path, "config.ini");
+	var ini = INI.Read(modConfigIniPath);
+	
+	static string DisablePowerBoost = string.Empty;
+	DisablePowerBoost = INI.Parse<string>(ini["Config"]["DisablePowerBoost"], DisablePowerBoost);
+	
+	if (DisablePowerBoost == "Yes")
+	{
+		WriteProtected<byte>
+		(
+			/* v1.41: 0x1409968F7 */
+			ScanSignature
+			(
+				"\xB0\x01\xF3\x0F\x10\x47\x60",
+				"xxxxxxx"
+			),
+
+			Assemble("xor al, al")
+		);
+		Console.WriteLine("[EXTRA] Power Boost disabled.")
+	}
+	else
+	{
+		Console.WriteLine("[EXTRA] Power Boost enabled.")	
+	}
+}
+
 Patch "Always enable JumpSelector UI" by "angryzor"
 {
     WriteNop(ScanSignature("\x80\x7D\xB9\x00\x0F\x85\xBB\x00\x00\x00", "xxxxxxxxxx"), 10);
@@ -354,11 +349,50 @@ Patch "HMM Code Check (modified)" by "ZEROES_07"
     #load "System.Windows.Forms.dll"
 //
 {
-    if (HMM.GetCodes().Contains("Gameplay/Open Zone/Objects/Disable Traversal Objects in Chests")) 
-	{
-        MessageBox.Show("Disable the code \"Gameplay/Open Zone/Objects/Disable Traversal Objects in Chests\" in order to play 'Island Rush'.", "Code Conflict", MessageBoxButtons.OK);
-        System.Environment.Exit(0);
+    if (HMM.GetCodes().Contains("Fixes/Gameplay/Fix Damage from Jumping into Enemies")) 
+    {
+        MessageBox.Show("The code \"Fixes/Gameplay/Fix Damage from Jumping into Enemies\" can cause issues in the Final Horizon portion of 'Island Rush'.\n\nIt's recommended to disable this code before playing this mod.", "Code Conflict", MessageBoxButtons.OK);
     }
+    if (HMM.GetCodes().Contains("UI/Messages/Disable Tutorial Messages")) 
+    {
+        MessageBox.Show("The code \"UI/Messages/Disable Tutorial Messages\" removes Hint Rings which are used in certain segments of 'Island Rush'.\n\nIt's recommended to disable this code before playing this mod.", "Code Conflict", MessageBoxButtons.OK);
+    }
+}
+
+Code "[Battle Rush] Force disable autosaving" by "ecksdii" 
+//
+    #lib "GameManager"
+    #lib "Lua"
+
+    #import "Services"
+//
+{
+    var pStageInfo = GameManager.GetService<StageInfo>();
+
+    if (pStageInfo == null)
+        return;
+
+    foreach (var pStageData in pStageInfo->Stages)
+    {
+        if ((pStageData.pData->AttributeFlags & (1L << (int)StageInfo.Attributes.BattleRush)) != 0)
+        {
+            pStageData.pData->AttributeFlags &= ~(1L << (int)StageInfo.Attributes.Autosave);
+        }
+    }
+}
+
+Code "[Battle Rush] Unlock Cyloop and Quick Cyloop" by "ecksdii" 
+//
+    #lib "GameMode"
+
+    #include "SaveData" noemit
+//
+{
+	if (GameMode.GetName() == "GameModeBattleRush")
+	{
+		SAVE_SET_PARAM(character.skillLevel[0], 1);
+		SAVE_SET_PARAM(character.skillLevel[2], 1);
+	}
 }
 
 Library "SoundCommonParameter"

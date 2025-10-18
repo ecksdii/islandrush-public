@@ -12,6 +12,13 @@
 					"Type": "CustomNum",
 					"DefaultValue": "No",
 					"Description": [ "This option lowers the delay between finishing one Phase and moving to the next by half (from 3s to 1.5s).\n\nUseful for speedrunning, but not recommended for casual and first time playthroughs.\n\nIf you're not sure, set this to 'No'." ]
+				},				
+				{
+					"Name": "DisablePowerBoost",
+					"DisplayName": "Disable Power Boost",
+					"Type": "CustomNum",
+					"DefaultValue": "Yes",
+					"Description": [ "By default, 'Island Rush' disables the Power Boost to make Sonic's speed level matter more.\n\nHowever, this change also affects the base game, so if you're having issues with this or you just want to play this mod with the Power Boost, set this to 'No'.\n\nOtherwise, it's recommended to set this to 'Yes'." ]
 				},
 				{
 					"Name": "isCustomEnabled",
