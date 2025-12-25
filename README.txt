@@ -1,6 +1,6 @@
 The 'Use custom music cues' option allows you to input a music cue that's not on the HedgeModManager list, to listen to while playing 'Island Rush'. 
 
-This is primarily meant to be used to play songs from the Jukebox (vanilla or modded), though it also works with any ending song, beta Action Chain music, koco trial music, the Birthday mix (*if Party Details are enabled on the title screen) and some others.
+This is primarily meant to be used to play songs from modded Jukeboxes that add more than 53 songs, though it also works with any ending song, beta Action Chain music, koco trial music, the Birthday mix (*if Party Details are enabled on the title screen) and some others.
 
 
 HOW TO GET MUSIC CUE NAMES:

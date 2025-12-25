@@ -72,7 +72,7 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	
 	string CueSelectMode = string.Empty;	
 	string isCustomEnabled = string.Empty;
-	string IslandWeather = string.Empty;
+	static string IslandWeather = string.Empty;
 	string LowerPhaseClear = string.Empty;
 	string TimeOfDay = string.Empty;
 	
@@ -103,9 +103,9 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
     {
 		if (!isConfigInit)
 		{
-			// reading ints or strings? no problem. reading bools? nahhhhh, i'm just not gonna read anything. why? just felt like it.
-			LowerPhaseClear = INI.Parse<string>(ini["Config"]["LowerPhaseClear"], LowerPhaseClear);
-			isCustomEnabled = INI.Parse<string>(ini["Config"]["isCustomEnabled"], isCustomEnabled);
+			// reading bools apparently works now, but i'm still using strings for backwards compatibility with older saves
+			LowerPhaseClear = INI.GetField(ini, "Config", "LowerPhaseClear", "No");
+			isCustomEnabled = INI.GetField(ini, "Config", "isCustomEnabled", "No");
 			
 			if (isCustomEnabled == "Yes")
 			{
@@ -121,11 +121,12 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 			{
 				case "w1b01":
 				{
-					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["KronosKoco"], musicArray[0]);
-					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["KronosTower1"], musicArray[1]);
-					musicArray[2] = INI.Parse<string>(ini[CueSelectMode]["KronosTower2"], musicArray[2]);
+					musicArray[0] = INI.GetField(ini, CueSelectMode, "KronosKoco", "bgm_w1r02_6");
+					musicArray[1] = INI.GetField(ini, CueSelectMode, "KronosTower1", "bgm_w1r05");
+					musicArray[2] = INI.GetField(ini, CueSelectMode, "KronosTower2", "bgm_w1r05");
 					
-					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeKronos"], TimeOfDay);
+					IslandWeather = INI.GetField(ini, "Weather", "WeatherKronos", "Sunny");
+					TimeOfDay = INI.GetField(ini, "Time", "TimeKronos", "Sunrise");
 					
 					CurrentStage = 0;
 					MaxSong = 3;
@@ -134,11 +135,12 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 				}		
 				case "w2b01":
 				{
-					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["AresKoco"], musicArray[0]);
-					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["AresTower"], musicArray[1]);
+					musicArray[0] = INI.GetField(ini, CueSelectMode, "AresKoco", "bgm_w2r01_6");
+					musicArray[1] = INI.GetField(ini, CueSelectMode, "AresTower", "bgm_quest_02");
 					musicArray[2] = string.Empty;
 					
-					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeAres"], TimeOfDay);
+					IslandWeather = INI.GetField(ini, "Weather", "WeatherAres", "Sunny");
+					TimeOfDay = INI.GetField(ini, "Time", "TimeAres", "Sunset");
 					
 					CurrentStage = 1;	
 					MaxSong = 2;					
@@ -147,11 +149,12 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 				}		
 				case "w3b01":
 				{
-					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["ChaosKoco"], musicArray[0]);
-					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["ChaosTower"], musicArray[1]);
+					musicArray[0] = INI.GetField(ini, CueSelectMode, "ChaosKoco", "bgm_w3r01_6");
+					musicArray[1] = INI.GetField(ini, CueSelectMode, "ChaosTower", "bgm_quest_05");
 					musicArray[2] = string.Empty;
 					
-					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeChaos"], TimeOfDay);
+					IslandWeather = INI.GetField(ini, "Weather", "WeatherChaos", "Sunny");
+					TimeOfDay = INI.GetField(ini, "Time", "TimeChaos", "Night");
 					
 					CurrentStage = 2;
 					MaxSong = 2;
@@ -160,11 +163,12 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 				}		
 				case "w1b02":
 				{
-					musicArray[0] = INI.Parse<string>(ini[CueSelectMode]["OuranosKoco"], musicArray[0]);
-					musicArray[1] = INI.Parse<string>(ini[CueSelectMode]["OuranosTower1"], musicArray[1]);
-					musicArray[2] = INI.Parse<string>(ini[CueSelectMode]["OuranosTower2"], musicArray[2]);
+					musicArray[0] = INI.GetField(ini, CueSelectMode, "OuranosKoco", "bgm_w1r04_1");
+					musicArray[1] = INI.GetField(ini, CueSelectMode, "OuranosTower1", "bgm_maintheme");
+					musicArray[2] = INI.GetField(ini, CueSelectMode, "OuranosTower2", "bgm_maintheme");
 					
-					TimeOfDay = INI.Parse<string>(ini["Time"]["TimeOuranos"], TimeOfDay);
+					IslandWeather = INI.GetField(ini, "Weather", "WeatherOuranos", "Sunny");
+					TimeOfDay = INI.GetField(ini, "Time", "TimeOuranos", "Sunset");
 					
 					CurrentStage = 3;
 					MaxSong = 3;
@@ -256,30 +260,7 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 		}	
 		else
 		{
-			// weather lua commands need to be processed after stage load, so because of that they run on every frame
-			switch (LevelInfo.GetCurrentStageID())
-			{
-				case "w1b01":
-				{
-					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherKronos"], IslandWeather);
-					break;
-				}		
-				case "w2b01":
-				{
-					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherAres"], IslandWeather);	
-					break;
-				}		
-				case "w3b01":
-				{
-					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherChaos"], IslandWeather);
-					break;
-				}		
-				case "w1b02":
-				{
-					IslandWeather = INI.Parse<string>(ini["Weather"]["WeatherOuranos"], IslandWeather);
-					break;
-				}			
-			}			
+			// has to run after stage load
 			Lua.Call("ChangeWeather", 0, IslandWeather);
 		}
     }
@@ -309,7 +290,7 @@ Patch "Island Rush - Extra modifiable parameters" by "ecksdii"
 	var ini = INI.Read(modConfigIniPath);
 	
 	static string DisablePowerBoost = string.Empty;
-	DisablePowerBoost = INI.Parse<string>(ini["Config"]["DisablePowerBoost"], DisablePowerBoost);
+	DisablePowerBoost = INI.GetField(ini, "Config", "DisablePowerBoost", "Yes");
 	
 	if (DisablePowerBoost == "Yes")
 	{

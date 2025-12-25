@@ -38,70 +38,70 @@
 					"Name": "KronosKoco",
 					"DisplayName": "Kronos Island - Phase 1",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Kronos - 6th Mvt",
+					"DefaultValue": "bgm_w1r02_6",
 					"Description": [ "The music cue that plays during the 'Kronos Island' Koco challenges.\n\nDefault song: \n'Island: Kronos - 6th Mvt'" ]
 				},				
 				{
 					"Name": "KronosTower1",
 					"DisplayName": "Kronos Island - Phase 2",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Rhea",
+					"DefaultValue": "bgm_w1r05",
 					"Description": [ "The music cue that plays during the first 3 'Kronos Island' towers.\n\nDefault song: \n'Island: Rhea'" ]
 				},						
 				{
 					"Name": "KronosTower2",
 					"DisplayName": "Kronos Island - Phase 3",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Rhea",
+					"DefaultValue": "bgm_w1r05",
 					"Description": [ "The music cue that plays during the last 3 'Kronos Island' towers.\n\nDefault song: \n'Island: Rhea'" ]
 				},				
 				{
 					"Name": "AresKoco",
 					"DisplayName": "Ares Island - Phase 1",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Ares - 6th Mvt",
+					"DefaultValue": "bgm_w2r01_6",
 					"Description": [ "The music cue that plays during the 'Ares Island' Koco challenges.\n\nDefault song: \n'Island: Ares - 6th Mvt'" ]
 				},				
 				{
 					"Name": "AresTower",
 					"DisplayName": "Ares Island - Phase 2",
 					"Type": "BgmNum",
-					"DefaultValue": "Quest: The Best Defense",
+					"DefaultValue": "bgm_quest_02",
 					"Description": [ "The music cue that plays during the last few 'Ares Island' challenges.\n\nDefault song: \n'Quest: The Best Defense'" ]
 				},				
 				{
 					"Name": "ChaosKoco",
 					"DisplayName": "Chaos Island - Phase 1",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Chaos - 6th Mvt",
+					"DefaultValue": "bgm_w3r01_6",
 					"Description": [ "The music cue that plays during the 'Chaos Island' Koco challenges.\n\nDefault song: \n'Island: Chaos - 6th Mvt'" ]
 				},				
 				{
 					"Name": "ChaosTower",
 					"DisplayName": "Chaos Island - Phase 2",
 					"Type": "BgmNum",
-					"DefaultValue": "Quest: Bridge the Gap",
+					"DefaultValue": "bgm_quest_05",
 					"Description": [ "The music cue that plays during the last few 'Chaos Island' challenges.\n\nDefault song: \n'Quest: Bridge the Gap'" ]
 				},				
 				{
 					"Name": "OuranosKoco",
 					"DisplayName": "Ouranos Island - Phase 1",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Ouranos",
+					"DefaultValue": "bgm_w1r04_1",
 					"Description": [ "The music cue that plays during the 'Ouranos Island' Koco challenges.\n\nDefault song: \n'Island: Ouranos'" ]
 				},				
 				{
 					"Name": "OuranosTower1",
 					"DisplayName": "Ouranos Island - Phase 2",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Another Story - Second Wind",
+					"DefaultValue": "bgm_maintheme",
 					"Description": [ "The music cue that plays during the first 2 'Ouranos Island' towers.\n\nDefault song: \n'Island: Another Story - Second Wind'" ]
 				},				
 				{
 					"Name": "OuranosTower2",
 					"DisplayName": "Ouranos Island - Phase 3",
 					"Type": "BgmNum",
-					"DefaultValue": "Island: Another Story - Second Wind",
+					"DefaultValue": "bgm_maintheme",
 					"Description": [ "The music cue that plays during the last 3 'Ouranos Island' towers.\n\nDefault song: \n'Island: Another Story - Second Wind'" ]
 				}
 			]
@@ -486,6 +486,374 @@
             "DisplayName": "Island: Another Story - Second Wind",
             "Value": "bgm_maintheme",
          }, 		 
+		 {
+            "DisplayName": "Jukebox: Song 01 (I'm Here)",
+            "Value": "bgm_custom01"	
+         },
+		 {
+            "DisplayName": "Jukebox: Song 02 (Angel Island)",
+            "Value": "bgm_custom02",
+			"Description": [
+			  "From: Sonic 3 & Knuckles"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 03 (Mushroom Hill)",
+            "Value": "bgm_custom03",
+			"Description": [
+			  "From: Sonic 3 & Knuckles"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 04 (Sky Sanctuary)",
+            "Value": "bgm_custom04",
+			"Description": [
+			  "From: Sonic 3 & Knuckles"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 05 (Palmtree Panic)",
+            "Value": "bgm_custom05",
+			"Description": [
+			  "From: Sonic CD (JP)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 06 (Stardust Speedway - US ver.)",
+            "Value": "bgm_custom06",
+			"Description": [
+			  "From: Sonic CD (US)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 07 (Open Your Heart)",
+            "Value": "bgm_custom07",
+			"Description": [
+			  "From: Sonic Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 08 (It Doesn't Matter)",
+            "Value": "bgm_custom08",
+			"Description": [
+			  "From: Sonic Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 09 (Emerald Coast - Act 1)",
+            "Value": "bgm_custom09",
+			"Description": [
+			  "From: Sonic Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 10 (Red Mountain)",
+            "Value": "bgm_custom10",
+			"Description": [
+			  "From: Sonic Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 11 (Mystic Ruins)",
+            "Value": "bgm_custom11",
+			"Description": [
+			  "From: Sonic Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 12 (Live & Learn)",
+            "Value": "bgm_custom12",
+			"Description": [
+			  "From: Sonic Adventure 2"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 13 (City Escape)",
+            "Value": "bgm_custom13",
+			"Description": [
+			  "From: Sonic Adventure 2"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 14 (Green Forest)",
+            "Value": "bgm_custom14",
+			"Description": [
+			  "From: Sonic Adventure 2"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 15 (Dry Lagoon)",
+            "Value": "bgm_custom15",
+			"Description": [
+			  "From: Sonic Adventure 2"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 16 (Sonic Heroes)",
+            "Value": "bgm_custom16",
+			"Description": [
+			  "wait which game is this from, again?"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 17 (Seaside Hill)",
+            "Value": "bgm_custom17",
+			"Description": [
+			  "From: Sonic Heroes"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 18 (Ocean Palace)",
+            "Value": "bgm_custom18",
+			"Description": [
+			  "From: Sonic Heroes"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 19 (Frog Forest)",
+            "Value": "bgm_custom19",
+			"Description": [
+			  "From: Sonic Heroes"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 20 (His World - E3 ver.)",
+            "Value": "bgm_custom20",
+			"Description": [
+			  "From: Sonic the Hedgehog (2006)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 21 (Wave Ocean)",
+            "Value": "bgm_custom21",
+			"Description": [
+			  "From: Sonic the Hedgehog (2006)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 22 (Dusty Desert)",
+            "Value": "bgm_custom22",
+			"Description": [
+			  "From: Sonic the Hedgehog (2006)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 23 (Kingdom Valley)",
+            "Value": "bgm_custom23",
+			"Description": [
+			  "From: Sonic the Hedgehog (2006)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 24 (Result - His World)",
+            "Value": "bgm_custom24",
+			"Description": [
+			  "From: Sonic the Hedgehog (2006)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 25 (Seven Rings In Hand)",
+            "Value": "bgm_custom25",
+			"Description": [
+			  "From: Sonic and the Secret Rings"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 26 (Sand Oasis)",
+            "Value": "bgm_custom26",
+			"Description": [
+			  "From: Sonic and the Secret Rings"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 27 (The World Adventure)",
+            "Value": "bgm_custom27",
+			"Description": [
+			  "From: Sonic Unleashed / Sonic World Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 28 (Windmill Isle - Day)",
+            "Value": "bgm_custom28",
+			"Description": [
+			  "From: Sonic Unleashed / Sonic World Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 29 (Savannah Citadel - Day)",
+            "Value": "bgm_custom29",
+			"Description": [
+			  "From: Sonic Unleashed / Sonic World Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 30 (Arid Sands - Day)",
+            "Value": "bgm_custom30",
+			"Description": [
+			  "From: Sonic Unleashed / Sonic World Adventure"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 31 (Knight of the Wind)",
+            "Value": "bgm_custom31",
+			"Description": [
+			  "From: Sonic and the Black Knight"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 32 (Misty Lake)",
+            "Value": "bgm_custom32",
+			"Description": [
+			  "From: Sonic and the Black Knight"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 33 (Deep Woods)",
+            "Value": "bgm_custom33",
+			"Description": [
+			  "From: Sonic and the Black Knight"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 34 (Theme of Sonic Colors)",
+            "Value": "bgm_custom34",
+			"Description": [
+			  "From: uhhh ummmmmmmm i dunno"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 35 (Planet Wisp)",
+            "Value": "bgm_custom35",
+			"Description": [
+			  "From: Sonic Colors"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 36 (Sky Sanctuary - Remix)",
+            "Value": "bgm_custom36",
+			"Description": [
+			  "From: Sonic Generations"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 37 (Emerald Coast - Act 2 Remix)",
+            "Value": "bgm_custom37",
+			"Description": [
+			  "From: Sonic Generations (3DS)"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 38 (Speed Highway - Remix)",
+            "Value": "bgm_custom38",
+			"Description": [
+			  "From: Mario & Sonic at the Sochi 2014 Olympic Winter Games"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 39 (Rooftop Run - Remix)",
+            "Value": "bgm_custom39",
+			"Description": [
+			  "From: Sonic Generations"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 40 (Wonder World)",
+            "Value": "bgm_custom40",
+			"Description": [
+			  "From: Sonic Lost World"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 41 (Windy Hill - Zone 1)",
+            "Value": "bgm_custom41",
+			"Description": [
+			  "From: Sonic Lost World"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 42 (Desert Ruins - Zone 1)",
+            "Value": "bgm_custom42",
+			"Description": [
+			  "From: Sonic Lost World"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 43 (Sky Road - Zone 2)",
+            "Value": "bgm_custom43",
+			"Description": [
+			  "From: Sonic Lost World"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 44 (Stardust Speedway - Remix)",
+            "Value": "bgm_custom44",
+			"Description": [
+			  "From: Sonic Mania"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 45 (Flying Battery - Remix)",
+            "Value": "bgm_custom45",
+			"Description": [
+			  "From: Sonic Mania"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 46 (Mirage Saloon - Act 2)",
+            "Value": "bgm_custom46",
+			"Description": [
+			  "From: Sonic Mania"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 47 (Lava Reef - Remix)",
+            "Value": "bgm_custom47",
+			"Description": [
+			  "From: Sonic Mania"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 48 (Fist Bump)",
+            "Value": "bgm_custom48",
+			"Description": [
+			  "From: Sonic Forces"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 49 (Arsenal Pyramid)",
+            "Value": "bgm_custom49",
+			"Description": [
+			  "From: Sonic Forces"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 50 (Aqua Road)",
+            "Value": "bgm_custom50",
+			"Description": [
+			  "From: Sonic Forces"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 51 (This Is Our World - Phase 2)",
+            "Value": "bgm_custom51",
+			"Description": [
+			  "From: Sonic Forces"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 52 (Reach For The Stars - Re-Colors)",
+            "Value": "bgm_custom52",
+			"Description": [
+			  "From: Sonic Colors Ultimate"
+			]
+         },
+		 {
+            "DisplayName": "Jukebox: Song 53 (Asteroid Coaster - Remix)",
+            "Value": "bgm_custom53",
+			"Description": [
+			  "From: Sonic Colors Ultimate"
+			]
+         },		 
 		 {
             "DisplayName": "Quest: SOS Backup",
             "Value": "bgm_quest_01",

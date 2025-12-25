@@ -1,3 +1,9 @@
+## Island Rush 1.4.1
+- Added Jukebox songs to the song list (check 'Configure mod' in HedgeModManager)
+- Attempted to fix that one ramp throwing the player down in Kronos' Phase 8 (2D Tower)
+- Fixed older config files crashing the game when being used in newer versions of the mod (the Update server will also no longer overwrite config files)
+- Small code improvements
+
 ## Island Rush 1.4
 - Added helper objects to more confusing parts of certain Phases
 - Added config option to enable/disable Power Boost (was previously always disabled)
@@ -7,8 +13,6 @@
 - Miscellaneous tweaks to all 4 Islands
 - Re-added birthday balloons to the Kronos portion of the first Island
 - Small code improvements
-
-##### This update will overwrite your current config due to certain changes in the code file causing older configs to crash the game. If you've customized the mod's settings, it's recommended to backup your previous config before downloading this update.
 
 ## Island Rush 1.3.1
 - Added support for Sonic Frontiers v1.42
