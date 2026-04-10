@@ -2,7 +2,7 @@
 - Alternate spring entrance in Kronos' Phase 10 (second 2D tower) no longer needs to be Cyloop-ed
 - Code improvements (could result in improved performance in CPU-bound scenarios)
 - Fixed crash when changing the mod config options while the game is running
-- Fixed several softlocks in Kronos
+- Fixed several softlocks on Kronos
 - Improved object draw distance for most Koco challenges (primarily on Chaos and Ouranos) and Ares' underground sections
 - Miscellaneous object layout tweaks for all 4 Islands
 - Moving platforms, spikes and dash rings now reset properly upon starting a Phase (experimental)
