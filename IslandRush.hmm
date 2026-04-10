@@ -65,7 +65,29 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	#lib "SoundCommonParameter"
 //
 {
-    static bool isConfigInit = false;
+	var name = GameMode.GetName();	
+	
+	// stop doing stuff if in the wrong gamemode
+	if (name == "GameModeBossRush" || name == "GameModeCyberStage" || name == "GameModeCyberStageChallenge" || name == "GameModeFishing" || name == "GameModeHacking" || name == "GameModeMasterTrial" || name == "GameModeStage" || name == "GameModeTutorial")
+    {
+		return;
+	}
+	
+    static bool isConfigInit = false;	
+	
+	// while on the title screen and loading screen, reset config condition
+	if (name == "GameModeTitle" || name == "GameModeUnknown")
+    {
+		isConfigInit = false;
+		return;
+	}
+	
+	// stop doing stuff after the config has been read and applied
+	if (name == "GameModeBattleRush" && isConfigInit)
+	{
+		Lua.Call("ChangeWeather", 0, IslandWeather); // has to run after stage load
+		return;
+	}
 	
 	int CurrentStage = 0;
 	int MaxSong = 0;
@@ -75,8 +97,6 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	static string IslandWeather = string.Empty;
 	string LowerPhaseClear = string.Empty;
 	string TimeOfDay = string.Empty;
-	
-	var name = GameMode.GetName();
 	
 	var BattleRushParameterInfo = Reflection.GetDataInfo<BattleRushParameter.Root>("battlerush");
 
@@ -94,189 +114,202 @@ Code "Island Rush - User modifiable parameters" by "ecksdii"
 	
 	string[] musicArray = new string[3];		
 	
-	// while on the title screen and loading screen, reset config condition
-	if (name == "GameModeTitle" || name == "GameModeUnknown")
+	if (name == "GameModeBattleRush" && !isConfigInit)
     {
-		isConfigInit = false;
-	}
-	else if (name == "GameModeBattleRush")
-    {
-		if (!isConfigInit)
+		// reading bools apparently works now, but i'm still using strings for backwards compatibility with older saves
+		LowerPhaseClear = INI.GetField(ini, "Config", "LowerPhaseClear", "No");
+		isCustomEnabled = INI.GetField(ini, "Config", "isCustomEnabled", "No");
+		
+		if (isCustomEnabled == "Yes")
 		{
-			// reading bools apparently works now, but i'm still using strings for backwards compatibility with older saves
-			LowerPhaseClear = INI.GetField(ini, "Config", "LowerPhaseClear", "No");
-			isCustomEnabled = INI.GetField(ini, "Config", "isCustomEnabled", "No");
-			
-			if (isCustomEnabled == "Yes")
-			{
-				CueSelectMode = "Music_Custom";
-			}
-			else
-			{
-				CueSelectMode = "Music_HMM";
-			}		
-			Console.WriteLine("[STAGE] Using music cue select mode: " + CueSelectMode);
-			
-			switch (LevelInfo.GetCurrentStageID())
-			{
-				case "w1b01":
-				{
-					musicArray[0] = INI.GetField(ini, CueSelectMode, "KronosKoco", "bgm_w1r02_6");
-					musicArray[1] = INI.GetField(ini, CueSelectMode, "KronosTower1", "bgm_w1r05");
-					musicArray[2] = INI.GetField(ini, CueSelectMode, "KronosTower2", "bgm_w1r05");
-					
-					IslandWeather = INI.GetField(ini, "Weather", "WeatherKronos", "Sunny");
-					TimeOfDay = INI.GetField(ini, "Time", "TimeKronos", "Sunrise");
-					
-					CurrentStage = 0;
-					MaxSong = 3;
-					Console.WriteLine("[STAGE] Loaded Kronos config.")
-					break;
-				}		
-				case "w2b01":
-				{
-					musicArray[0] = INI.GetField(ini, CueSelectMode, "AresKoco", "bgm_w2r01_6");
-					musicArray[1] = INI.GetField(ini, CueSelectMode, "AresTower", "bgm_quest_02");
-					musicArray[2] = string.Empty;
-					
-					IslandWeather = INI.GetField(ini, "Weather", "WeatherAres", "Sunny");
-					TimeOfDay = INI.GetField(ini, "Time", "TimeAres", "Sunset");
-					
-					CurrentStage = 1;	
-					MaxSong = 2;					
-					Console.WriteLine("[STAGE] Loaded Ares config.")					
-					break;
-				}		
-				case "w3b01":
-				{
-					musicArray[0] = INI.GetField(ini, CueSelectMode, "ChaosKoco", "bgm_w3r01_6");
-					musicArray[1] = INI.GetField(ini, CueSelectMode, "ChaosTower", "bgm_quest_05");
-					musicArray[2] = string.Empty;
-					
-					IslandWeather = INI.GetField(ini, "Weather", "WeatherChaos", "Sunny");
-					TimeOfDay = INI.GetField(ini, "Time", "TimeChaos", "Night");
-					
-					CurrentStage = 2;
-					MaxSong = 2;
-					Console.WriteLine("[STAGE] Loaded Chaos config.")
-					break;
-				}		
-				case "w1b02":
-				{
-					musicArray[0] = INI.GetField(ini, CueSelectMode, "OuranosKoco", "bgm_w1r04_1");
-					musicArray[1] = INI.GetField(ini, CueSelectMode, "OuranosTower1", "bgm_maintheme");
-					musicArray[2] = INI.GetField(ini, CueSelectMode, "OuranosTower2", "bgm_maintheme");
-					
-					IslandWeather = INI.GetField(ini, "Weather", "WeatherOuranos", "Sunny");
-					TimeOfDay = INI.GetField(ini, "Time", "TimeOuranos", "Sunset");
-					
-					CurrentStage = 3;
-					MaxSong = 3;
-					Console.WriteLine("[STAGE] Loaded Ouranos config.")
-					break;
-				}			
-			}
-			
-			switch(TimeOfDay)
-			{
-				case "Sunrise":
-				{
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 4);
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 30);
-					break;
-				}		
-				case "Day":
-				{
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 8);
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 00);
-					break;
-				}		
-				case "Sunset":
-				{
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 20);
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 15);
-					break;
-				}		
-				case "Night":
-				{
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 0);
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 00);
-					break;
-				}
-			}			
-			Console.WriteLine("[STAGE] Loaded Time of Day settings.")
-
-			for (int l = 1; l <= MaxSong; l++)
-			{
-				RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].fadeInTime, 0.0f);
-				RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].fadeOutTime, 2.5f);
-			}
-			Console.WriteLine("[MUSIC] Replaced music fade info.")	
-			
-			for (int k = 0; k < MaxSong; k++)	
-			{
-				RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[k+1].cueName, musicArray[k]);	
-			}			
-			Console.WriteLine("[MUSIC] Loaded new music cues.")	
-			
-			// to prevent the same song restarting between the two tower phases in kronos/ouranos
-			if (MaxSong == 3)
-			{
-				if (musicArray[2] == musicArray[1])
-				{
-					Console.WriteLine("[MUSIC] Tower1 and Tower2 music cues are the same, replacing the latter BgmType...")			
-					for (int i = 8; i < 11; i++)
-					{
-						RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_CHARGER_BATTLE);
-					}
-				}
-				else
-				{
-					Console.WriteLine("[MUSIC] Tower1 and Tower2 music cues are different, using the original BgmType setup...")
-					for (int i = 8; i < 11; i++)
-					{
-						RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_DARUMA_BATTLE);
-					}		
-				}
-			}
-			
-			if (LowerPhaseClear == "Yes")
-			{
-				Console.WriteLine("[OTHER] Using lower phase transition time.")
-				for (int i = 0; i < 11; i++)
-				{
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseClearedTime[i], 1.5f);
-				}
-			}
-			else
-			{
-				Console.WriteLine("[OTHER] Using default phase transition time.")
-				for (int i = 0; i < 11; i++)
-				{
-					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseClearedTime[i], 3.0f);	
-				}								
-			}
-			isConfigInit = true;
-		}	
+			CueSelectMode = "Music_Custom";
+		}
 		else
 		{
-			// has to run after stage load
-			Lua.Call("ChangeWeather", 0, IslandWeather);
-		}
-    }
-	else
-	{
-		// restore original sound cues
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].cueName, "bgm_enemy");
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].cueName, "bgm_miniboss_charger");
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].cueName, "bgm_miniboss_daruma");
+			CueSelectMode = "Music_HMM";
+		}		
+		Console.WriteLine("[STAGE] Using music cue select mode: " + CueSelectMode);
 		
-		// restore original FadeIn/Out times
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].fadeInTime, 2.0f);
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].fadeOutTime, 3.5f);		
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].fadeInTime, 2.0f);
-		RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].fadeInTime, 0.0f);
+		switch (LevelInfo.GetCurrentStageID())
+		{
+			case "w1b01":
+			{
+				musicArray[0] = INI.GetField(ini, CueSelectMode, "KronosKoco", "bgm_w1r02_6");
+				musicArray[1] = INI.GetField(ini, CueSelectMode, "KronosTower1", "bgm_w1r05");
+				musicArray[2] = INI.GetField(ini, CueSelectMode, "KronosTower2", "bgm_w1r05");
+				
+				IslandWeather = INI.GetField(ini, "Weather", "WeatherKronos", "Sunny");
+				TimeOfDay = INI.GetField(ini, "Time", "TimeKronos", "Sunrise");
+				
+				CurrentStage = 0;
+				MaxSong = 3;
+				Console.WriteLine("[STAGE] Loaded Kronos config.")
+				break;
+			}		
+			case "w2b01":
+			{
+				musicArray[0] = INI.GetField(ini, CueSelectMode, "AresKoco", "bgm_w2r01_6");
+				musicArray[1] = INI.GetField(ini, CueSelectMode, "AresTower", "bgm_quest_02");
+				musicArray[2] = string.Empty;
+				
+				IslandWeather = INI.GetField(ini, "Weather", "WeatherAres", "Sunny");
+				TimeOfDay = INI.GetField(ini, "Time", "TimeAres", "Sunset");
+				
+				CurrentStage = 1;	
+				MaxSong = 2;					
+				Console.WriteLine("[STAGE] Loaded Ares config.")					
+				break;
+			}		
+			case "w3b01":
+			{
+				musicArray[0] = INI.GetField(ini, CueSelectMode, "ChaosKoco", "bgm_w3r01_6");
+				musicArray[1] = INI.GetField(ini, CueSelectMode, "ChaosTower", "bgm_quest_05");
+				musicArray[2] = string.Empty;
+				
+				IslandWeather = INI.GetField(ini, "Weather", "WeatherChaos", "Sunny");
+				TimeOfDay = INI.GetField(ini, "Time", "TimeChaos", "Night");
+				
+				CurrentStage = 2;
+				MaxSong = 2;
+				Console.WriteLine("[STAGE] Loaded Chaos config.")
+				break;
+			}		
+			case "w1b02":
+			{
+				musicArray[0] = INI.GetField(ini, CueSelectMode, "OuranosKoco", "bgm_w1r04_1");
+				musicArray[1] = INI.GetField(ini, CueSelectMode, "OuranosTower1", "bgm_maintheme");
+				musicArray[2] = INI.GetField(ini, CueSelectMode, "OuranosTower2", "bgm_maintheme");
+				
+				IslandWeather = INI.GetField(ini, "Weather", "WeatherOuranos", "Sunny");
+				TimeOfDay = INI.GetField(ini, "Time", "TimeOuranos", "Sunset");
+				
+				CurrentStage = 3;
+				MaxSong = 3;
+				Console.WriteLine("[STAGE] Loaded Ouranos config.")
+				break;
+			}			
+		}
+		
+		switch(TimeOfDay)
+		{
+			case "Sunrise":
+			{
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 4);
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 30);
+				break;
+			}		
+			case "Day":
+			{
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 8);
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 00);
+				break;
+			}		
+			case "Sunset":
+			{
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 20);
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 15);
+				break;
+			}		
+			case "Night":
+			{
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].hour, 0);
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].minute, 00);
+				break;
+			}
+		}			
+		Console.WriteLine("[STAGE] Loaded Time of Day settings.")
+
+		for (int l = 1; l <= MaxSong; l++)
+		{
+			RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].fadeInTime, 0.0f);
+			RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].fadeOutTime, 2.5f);
+			
+			// this allows the BGM to continue upon the player dying or restarting the stage, but it causes the results music to overlap with the current BGM in the 'All Stages' mode
+			//RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[l].isOverlapPlay, true);
+		}
+		Console.WriteLine("[MUSIC] Replaced music fade info.");
+		
+		for (int k = 0; k < MaxSong; k++)	
+		{
+			RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[k+1].cueName, musicArray[k]);	
+		}			
+		Console.WriteLine("[MUSIC] Loaded new music cues.")	
+		
+		// to prevent the same song restarting between the two tower phases in kronos/ouranos
+		if (MaxSong == 3)
+		{
+			if (musicArray[2] == musicArray[1])
+			{
+				Console.WriteLine("[MUSIC] Tower1 and Tower2 music cues are the same, replacing the latter BgmType...")			
+				for (int i = 8; i < 11; i++)
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_CHARGER_BATTLE);
+				}
+			}
+			else
+			{
+				Console.WriteLine("[MUSIC] Tower1 and Tower2 music cues are different, using the original BgmType setup...")
+				for (int i = 8; i < 11; i++)
+				{
+					RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseBgmType[i], BattleRushParameter.BgmType.MINIBOSS_DARUMA_BATTLE);
+				}		
+			}
+		}
+		
+		if (LowerPhaseClear == "Yes")
+		{
+			Console.WriteLine("[OTHER] Using lower phase transition time.")
+			for (int i = 0; i < 11; i++)
+			{
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseClearedTime[i], 1.5f);
+			}
+		}
+		else
+		{
+			Console.WriteLine("[OTHER] Using default phase transition time.")
+			for (int i = 0; i < 11; i++)
+			{
+				RFL_SET_PARAM(BattleRushParameterInfo, stages[CurrentStage].phaseClearedTime[i], 3.0f);	
+			}								
+		}
+		isConfigInit = true;
+    }
+}
+
+Code "Restore sound_common RFL values outside of Island Rush" by "ecksdii"
+//
+	#include "Reflection" noemit
+	
+	#import "Services"
+
+	#lib "GameMode"
+	#lib "Reflection"
+	
+	#lib "SoundCommonParameter"
+//
+{
+	var name = GameMode.GetName();
+	
+	if (name == "GameModeTitle" || name == "GameModeUnknown" || name == "GameModeBattleRush")
+    {
+		return;
 	}
+	
+	var SoundCommonParameterInfo = Reflection.GetDataInfo<SoundCommonParameter.Root>("sound_common_param");
+
+	if (SoundCommonParameterInfo.pData == null)
+		return;	
+	
+	// restore original cue names
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].cueName, "bgm_enemy");
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].cueName, "bgm_miniboss_charger");
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].cueName, "bgm_miniboss_daruma");
+	
+	// restore original FadeIn/Out times
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].fadeInTime, 2.0f);
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[1].fadeOutTime, 3.5f);		
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[2].fadeInTime, 2.0f);
+	RFL_SET_PARAM(SoundCommonParameterInfo, changeBgmInfo[3].fadeInTime, 0.0f);	
 }
 
 Patch "Island Rush - Extra modifiable parameters" by "ecksdii"
@@ -323,21 +356,27 @@ Patch "Use global time for all respawns" by "angryzor"
     WriteProtected<uint>(ScanSignature("\xC7\x44\x24\x28\x00\x00\x00\x00\x0F\x28\xD6", "xxxxxxxxxxx") + 4, 1);
 }
 
-Patch "HMM Code Check (modified)" by "ZEROES_07"
+Code "HMM Code Check (modified)" by "ZEROES_07"
 //
     #lib "HMM"
     using System.Windows.Forms;
     #load "System.Windows.Forms.dll"
+	
+	static bool _isInitialised = false;		
 //
 {
-    if (HMM.GetCodes().Contains("Fixes/Gameplay/Fix Damage from Jumping into Enemies")) 
-    {
-        MessageBox.Show("The code \"Fixes/Gameplay/Fix Damage from Jumping into Enemies\" can cause issues in the Final Horizon portion of 'Island Rush'.\n\nIt's recommended to disable this code before playing this mod.", "Code Conflict", MessageBoxButtons.OK);
-    }
-    if (HMM.GetCodes().Contains("UI/Messages/Disable Tutorial Messages")) 
-    {
-        MessageBox.Show("The code \"UI/Messages/Disable Tutorial Messages\" removes Hint Rings which are used in certain segments of 'Island Rush'.\n\nIt's recommended to disable this code before playing this mod.", "Code Conflict", MessageBoxButtons.OK);
-    }
+	if (!_isInitialised)
+	{
+		if (HMM.GetCodes().Contains("Fixes/Gameplay/Fix Damage from Jumping into Enemies")) 
+		{
+			MessageBox.Show("The code \"Fixes/Gameplay/Fix Damage from Jumping into Enemies\" can cause issues in the Final Horizon portion of 'Island Rush'.\n\nIt's recommended to disable this code before playing this mod.", "Code Conflict", MessageBoxButtons.OK);
+		}
+		if (HMM.GetCodes().Contains("UI/Messages/Disable Tutorial Messages")) 
+		{
+			MessageBox.Show("The code \"UI/Messages/Disable Tutorial Messages\" removes Hint Rings which are used in certain segments of 'Island Rush'.\n\nIt's recommended to disable this code before playing this mod.", "Code Conflict", MessageBoxButtons.OK);
+		}
+		_isInitialised = true;
+	}
 }
 
 Code "[Battle Rush] Force disable autosaving" by "ecksdii" 
